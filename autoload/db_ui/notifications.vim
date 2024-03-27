@@ -83,19 +83,25 @@ let s:hl_by_type = {
       \ 'warning': 'NotificationWarning',
       \ }
 
+let s:level_by_type = {
+      \ 'info': 2,
+      \ 'error': 4,
+      \ 'warning': 3,
+      \ }
+
 function! s:nvim_close() abort
   silent! call nvim_win_close(s:win, v:true)
   silent! call timer_stop(s:timer)
 endfunction
 
 function! s:notification_nvim_notify(msg, opts) abort
-  let type = get(a:opts, 'type', 'info')
+  let type = get(a:opts, 'type', 1)
   let title = get(a:opts, 'title', s:title)
   let opts = { 'title': title }
   if get(a:opts, 'delay')
     let opts.timeout = { 'timeout': a:opts.delay }
   endif
-  return luaeval('vim.notify(_A[1], _A[2], _A[3])', [a:msg, type, opts])
+  return luaeval('vim.notify(_A[1], _A[2], _A[3])', [a:msg, s:level_by_type[type], opts])
 endfunction
 
 function! s:notification_nvim(msg, opts) abort
