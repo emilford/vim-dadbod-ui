@@ -95,7 +95,7 @@ function! s:nvim_close() abort
 endfunction
 
 function! s:notification_nvim_notify(msg, opts) abort
-  let type = get(a:opts, 'type', 1)
+  let type = get(a:opts, 'type', 'info')
   let title = get(a:opts, 'title', s:title)
   let opts = { 'title': title }
   if get(a:opts, 'delay')
